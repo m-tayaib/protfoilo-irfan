@@ -9,14 +9,14 @@ const navLinks = [
 ];
 export default function Navbar() {
   return (
-    <nav className="flex  mx-auto md:max-w-[40%] rounded-lg py-2 mt-5 backdrop-blur-sm bg-white/30  justify-center items-center gap-7 shadow-md h-[50px] ">
+    <nav className="font-roboto   flex  mx-auto md:max-w-[40%] w-[90%] px-2 rounded-lg py-2 mt-5 bg-white/30 backdrop-blur-md  border border-white/20 justify-center items-center    md:gap-7 shadow-md h-[50px] ">
       {/* nav links */}
       <div>
         <ul className="flex justify-center items-center gap-5">
           {navLinks.map((link) => {
             return (
               <li key={link.id}>
-                <Link className="text-lg hover:text-white hover:bg-black p-2 rounded-lg transition-all 2s ease-linear" to={link.path}>{link.name}</Link>
+                <Link className="text-[14px] md:text-lg hover:text-white hover:bg-black p-2 rounded-lg transition-all 2s ease-linear" to={link.path}>{link.name}</Link>
               </li>
             );
           })}
