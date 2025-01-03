@@ -2,3 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body{
+  background-color: rgb(248 250 252);
+}
+.img{
+  border-radius: 75% 25% 49% 51% / 33% 72% 28% 67%;}
+
