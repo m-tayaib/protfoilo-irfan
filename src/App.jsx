@@ -6,6 +6,7 @@ import Contact from "../Pages/Contact";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaCode } from "react-icons/fa6";
+import { RiseLoader } from "react-spinners";
 import { motion } from "framer-motion";
 function App() {
   const [loading, setLoading] = useState(true);
@@ -40,8 +41,9 @@ function App() {
             className="opacity-70 text-[#C2410C] overflow-x-hidden flex justify-center items-center"
           >
             <FaCode fontSize={90} />
+            {/* <RiseLoader color="#f36a00" /> */}
           </motion.div>
-          {/* <RiseLoader color="#f36a00" /> */}
+          
         </div>
       ) : (
         <>
