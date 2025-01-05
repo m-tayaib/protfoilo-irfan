@@ -22,6 +22,9 @@ export default {
       'roboto': ['Roboto', 'sans-serif'],
       'poppins': ['Poppins', 'sans-serif'],
     },
+    backgroundImage:{
+      'home': "url('./public/bgAI.jpg')",
+    }
     },
 
   },
