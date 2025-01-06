@@ -5,8 +5,7 @@ import Projects from "../Pages/Projects";
 import Contact from "../Pages/Contact";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { FaCode } from "react-icons/fa6";
-import { RiseLoader } from "react-spinners";
+ import { RiseLoader } from "react-spinners";
 import { motion } from "framer-motion";
 function App() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +13,7 @@ function App() {
   useEffect(() => {
     const time = setInterval(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
     return () => clearInterval(time);
   }, [loading]);
 
@@ -37,7 +36,7 @@ function App() {
               scale: 1,
             }}
             whileInView={{ scale: 8 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className="opacity-70  text-[#5f5957]  flex justify-center items-center"
           >
              
