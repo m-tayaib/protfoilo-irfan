@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react"; 
 import heart_diease from "../public/projects_images/heart_dieases.png";
 import amazon_project from "../public/projects_images/amazon_project.png";
 import appStore from "../public/projects_images/appStore.png";
@@ -9,7 +9,7 @@ import { FaCode } from "react-icons/fa6";
 const projectData = [
   {
     id: 0,
-    title: "Heart Disease Pridiction",
+    title: "Heart Disease Prediction",
     para: "Explored heart disease patterns through machine learning, analyzing factors like age, chest pain, and cholesterol. Implemented diverse algorithms for accurate predictions. Grateful for the dataset from Hungarian Institute of Cardiology and others.",
     img: heart_diease,
     github: "https://github.com/irfan5006/Machine_Learning_Project06",
@@ -69,7 +69,11 @@ const projectData = [
   },
 ];
 
-export default function ProjectShows({ active }) {
+export default function ProjectShows({ active, render }) {
+  useEffect(() => {
+    console.log("Component is render!");
+  }, [render]);
+
   return (
     <div className="container grid md:grid-cols-2 gap-2 grid-cols-1">
       {/* project info  */}
@@ -77,21 +81,27 @@ export default function ProjectShows({ active }) {
         <motion.h1
           initial={{
             opacity: 0,
-            scale: 0.9,
+            y: -50,
           }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="text-xl md:text-5xl tracking-medium    font-extrabold mb-2"
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: "easeOut",
+          }}
+          className="text-xl md:text-5xl tracking-medium font-extrabold mb-2"
         >
           {projectData[active].title}
         </motion.h1>
         <motion.p
           initial={{
             opacity: 0,
-            scale: 0.9,
+            y: -50,
           }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: "easeOut",
+          }}
           className="text-gray-500 tracking-tighter leading-6 mb-4"
         >
           {projectData[active].para}
@@ -99,64 +109,62 @@ export default function ProjectShows({ active }) {
 
         {/* skills used in projects  */}
         <div className="">
-          <ul className="flex  flex-wrap items-center gap-3">
-            <motion.li
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0, ease: "easeInOut" }}
-              className="bg-gray-300 text-black py-2 px-3 shadow-md rounded-md inline-block"
-            >
-              {projectData[active].tags[0]}
-            </motion.li>
-            <motion.li
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2, ease: "easeInOut" }}
-              className="bg-gray-300 text-black py-2 px-3 shadow-md rounded-md inline-block"
-            >
-              {projectData[active].tags[1]}
-            </motion.li>
-            <motion.li
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4, ease: "easeInOut" }}
-              className="bg-gray-300 text-black py-2 px-3 shadow-md rounded-md inline-block"
-            >
-              {projectData[active].tags[2]}
-            </motion.li>
-            <motion.li
-              initial={{ opacity: 0, x: -150 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.6, ease: "easeInOut" }}
-              className="bg-gray-300 text-black py-2 px-3 shadow-md rounded-md inline-block"
-            >
-              {projectData[active].tags[3]}
-            </motion.li>
-            <motion.li
-              initial={{ opacity: 0, x: -200 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.8, ease: "easeInOut" }}
-              className="bg-gray-300 text-black py-2 px-3 shadow-md rounded-md inline-block"
-            >
-              {projectData[active].tags[4]}
-            </motion.li>
-            <motion.li
-              initial={{ opacity: 0, x: -250 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 1, ease: "easeInOut" }}
-              className="bg-gray-300 text-black py-2 px-3 shadow-md rounded-md inline-block"
-            >
-              {projectData[active].tags[5]}
-            </motion.li>
-          </ul>
+          <motion.ul
+            initial={{
+              opacity: 0,
+              scale: 0.95,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              ease: "easeOut",
+            }}
+            className="flex flex-wrap items-center gap-3"
+          >
+            {projectData[active].tags.map((tag, index) => (
+              <motion.li
+                key={index}
+                initial={{
+                  opacity: 0,
+                  x: -50 * (index + 1),
+                }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.2 * index,
+                  ease: "easeInOut",
+                }}
+                className="bg-gray-300 text-black py-2 px-3 shadow-md rounded-md inline-block"
+              >
+                {tag}
+              </motion.li>
+            ))}
+          </motion.ul>
         </div>
 
         {/* project views points links */}
         <div className="flex gap-3 mt-5  float-right">
           <a href={projectData[active].github}>
             <motion.button
-              initial={{ opacity: 0, scale: 0.7}}
-              whileInView={{ opacity: 1, scale: 1 }}
+              whileHover={{
+                scale: 1.05,
+                backgroundColor: "#38bdf8", // Tailwind Sky-400
+                transition: { duration: 0.2 },
+              }}
+              initial={{
+                opacity: 0,
+                scale: 0.7,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
               transition={{
                 duration: 0.5,
                 delay: 1,
@@ -164,7 +172,7 @@ export default function ProjectShows({ active }) {
                 stiffness: 100,
                 damping: 160,
               }}
-              className="py-2 px-3 shadow-md hover:bg-green-600 hover:text-white font-bold transition-all 2s ease-linear flex justify-center items-center gap-3 bg-gray-200 rounded-lg"
+              className="py-2 px-3 shadow-md hover:bg-green-600 hover:text-white font-bold transition-all ease-linear flex justify-center items-center gap-3 bg-gray-200 rounded-lg"
             >
               code
               <FaCode />
@@ -174,19 +182,46 @@ export default function ProjectShows({ active }) {
       </div>
 
       {/* project images */}
-      <div className="relative flex justify-center  items-center ">
-        <motion.div 
-        initial={{ opacity: 0, scale: 0.7 , rotate: 45 , x: -50   }}
-        whileInView={{ opacity: 1, scale: 1 , rotate: -2 , x: 0   }}
-        transition={{ duration: 0.5, delay: 0.2, ease: "easeInOut" }}
-        className="h-[80%] w-[82%] rounded-md absolute rotate-3 -z-10 bg-gray-600 shadow-md "></motion.div>
+      <div className="relative flex justify-center items-center ">
+        <motion.div
+          initial={{
+            opacity: 0,
+            scale: 0.7,
+            rotate: 45,
+            x: -50,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            rotate: -2,
+            x: 0,
+          }}
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+            ease: "easeInOut",
+          }}
+          className="h-[80%] w-[82%] rounded-md absolute rotate-3 -z-10 bg-gray-600 shadow-md"
+        ></motion.div>
         <motion.img
-          
-          initial={{ opacity: 0, scale: 0.7 , rotate: 45 , x: -50   }}
-whileInView={{ opacity: 1, scale: 1 , rotate: 0 , x: 0   }}
-transition={{ duration: 0.5, delay: 0.2, ease: "easeInOut" }}
-
-         className="shadow-[0_0_4px_black] h-[80%] w-[80%] rounded-md "
+          initial={{
+            opacity: 0,
+            scale: 0.7,
+            rotate: 45,
+            x: -50,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            rotate: 0,
+            x: 0,
+          }}
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+            ease: "easeInOut",
+          }}
+          className="shadow-[0_0_4px_black] h-[80%] w-[80%] rounded-md"
           src={projectData[active].img}
           alt=""
         />
