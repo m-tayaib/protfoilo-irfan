@@ -107,9 +107,9 @@ export default function Contact() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1 }}
-            href="/resume.pdf"
+            href="/public/resume.pdf"
             download="My_Resume.pdf" // Specify the name for the downloaded file
-            className="bg-blue-600  w-[200px] text-white shadow-lg cursor-pointer px-3 py-2 rounded-lg flex items-center space-x-2 hover:bg-black hover:text-white transition duration-200 ease-linear"
+            className="bg-blue-600 font-medium w-[200px] text-white shadow-lg cursor-pointer px-3 py-2 rounded-lg flex items-center space-x-2 hover:bg-black hover:text-white transition duration-200 ease-linear"
           >
             <FaDownload />
             <span>Download Resume</span>
