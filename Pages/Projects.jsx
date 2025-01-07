@@ -1,21 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdOutlineKeyboardDoubleArrowUp } from "react-icons/md";
 import ProjectShows from "../Components/ProjectShows";
 import { motion } from "framer-motion";
 
 export default function Projects() {
   const [active, setActive] = useState(0);
-  const [render, setRender] = useState(true);
 
   const handleChangeProject = (num) => {
-    setRender(!render);
-    console.log(render);
     setActive(num);
   };
 
   return (
-    <section className="font-roboto flex justify-center flex-col py-10 items-center md:h-[91vh]">
-      <ProjectShows active={active} render={render} />
+    <section className="font-roboto  flex justify-center flex-col py-10 items-center md:h-[91vh]">
+      <ProjectShows active={active} />
 
       {/* projects action buttons */}
       <div className="flex justify-center flex-wrap items-center mt-7 p-2 gap-4">

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"; 
+import React, { useEffect } from "react";
 import heart_diease from "../public/projects_images/heart_dieases.png";
 import amazon_project from "../public/projects_images/amazon_project.png";
 import appStore from "../public/projects_images/appStore.png";
@@ -69,13 +69,9 @@ const projectData = [
   },
 ];
 
-export default function ProjectShows({ active, render }) {
-  useEffect(() => {
-    console.log("Component is render!");
-  }, [render]);
-
+export default function ProjectShows({ active }) {
   return (
-    <div className="container grid md:grid-cols-2 gap-2 grid-cols-1">
+    <div className="container  grid md:grid-cols-2 gap-2 grid-cols-1">
       {/* project info  */}
       <div className="mt-12 md:p-0 p-5">
         <motion.h1

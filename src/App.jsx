@@ -5,7 +5,7 @@ import Projects from "../Pages/Projects";
 import Contact from "../Pages/Contact";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
- import { RiseLoader } from "react-spinners";
+import { RiseLoader } from "react-spinners";
 import { motion } from "framer-motion";
 function App() {
   const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ function App() {
           whileInView={{scale:10}}
           transition={{duration:1 , delay : 0.5}}
            src={pic} className="w-[10%] rounded-full shadow-lg " alt="" /> */}
-         
+
           <motion.div
             initial={{
               opacity: 0.7,
@@ -39,13 +39,13 @@ function App() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="opacity-70  text-[#5f5957]  flex justify-center items-center"
           >
-             
-             <RiseLoader color="#f36a00" />
+            <RiseLoader color="#f36a00" />
             {/* <FaCode fontSize={90} /> */}
-            
           </motion.div>
-          
-          <h1 className="absolute bottom-5 opacity-50 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black capitalize ">Welcome in My Protfoilo</h1>
+
+          <h1 className="absolute bottom-5 opacity-50 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black capitalize ">
+            Welcome in My Protfoilo
+          </h1>
         </div>
       ) : (
         <>

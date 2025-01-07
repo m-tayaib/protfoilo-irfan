@@ -70,124 +70,124 @@ const steps = [
 const quotes = [
   {
     id: 1,
-    text: "In the world of data, patterns speak louder than assumptions—let me help you uncover them."
+    text: "In the world of data, patterns speak louder than assumptions—let me help you uncover them.",
   },
   {
     id: 2,
-    text: "Empowering businesses with the tools to transform raw data into strategic decisions."
+    text: "Empowering businesses with the tools to transform raw data into strategic decisions.",
   },
   {
     id: 3,
-    text: "Deep learning isn't just about algorithms; it's about unlocking the future of possibilities."
+    text: "Deep learning isn't just about algorithms; it's about unlocking the future of possibilities.",
   },
   {
     id: 4,
-    text: "Every dataset holds untapped potential—together, we can bring it to life."
+    text: "Every dataset holds untapped potential—together, we can bring it to life.",
   },
   {
     id: 5,
-    text: "From insights to innovation, let your data drive a smarter tomorrow."
+    text: "From insights to innovation, let your data drive a smarter tomorrow.",
   },
   {
     id: 6,
-    text: "Bridging the gap between data and decisions with precision and expertise."
+    text: "Bridging the gap between data and decisions with precision and expertise.",
   },
   {
     id: 7,
-    text: "Transforming raw numbers into stories that fuel growth and innovation."
+    text: "Transforming raw numbers into stories that fuel growth and innovation.",
   },
   {
     id: 8,
-    text: "Your data deserves a voice—let's amplify it with actionable insights."
+    text: "Your data deserves a voice—let's amplify it with actionable insights.",
   },
   {
     id: 9,
-    text: "Unveiling the power of data to shape intelligent business strategies."
+    text: "Unveiling the power of data to shape intelligent business strategies.",
   },
   {
     id: 10,
-    text: "Harnessing machine learning to solve today’s challenges and build tomorrow’s success."
+    text: "Harnessing machine learning to solve today’s challenges and build tomorrow’s success.",
   },
   {
     id: 11,
-    text: "When data meets creativity, extraordinary solutions emerge."
+    text: "When data meets creativity, extraordinary solutions emerge.",
   },
   {
     id: 12,
-    text: "Every dataset is a puzzle—I bring the pieces together with clarity."
+    text: "Every dataset is a puzzle—I bring the pieces together with clarity.",
   },
   {
     id: 13,
-    text: "Turning chaos into clarity with the art and science of data analysis."
+    text: "Turning chaos into clarity with the art and science of data analysis.",
   },
   {
     id: 14,
-    text: "Deep insights come from deep learning—let's explore what your data can reveal."
+    text: "Deep insights come from deep learning—let's explore what your data can reveal.",
   },
   {
     id: 15,
-    text: "Crafting visual narratives that make complex data simple and actionable."
+    text: "Crafting visual narratives that make complex data simple and actionable.",
   },
   {
     id: 16,
-    text: "Your data’s true potential is just a question away—ask the right one with me."
+    text: "Your data’s true potential is just a question away—ask the right one with me.",
   },
   {
     id: 17,
-    text: "Power BI dashboards that not only inform but inspire action."
+    text: "Power BI dashboards that not only inform but inspire action.",
   },
   {
     id: 18,
-    text: "Numbers have stories—let's ensure yours are worth telling."
+    text: "Numbers have stories—let's ensure yours are worth telling.",
   },
   {
     id: 19,
-    text: "Where numbers become insights, and insights become impact."
+    text: "Where numbers become insights, and insights become impact.",
   },
   {
     id: 20,
-    text: "Advanced analytics for smarter decisions and stronger outcomes."
+    text: "Advanced analytics for smarter decisions and stronger outcomes.",
   },
   {
     id: 21,
-    text: "Empowering organizations to lead with data-driven confidence."
+    text: "Empowering organizations to lead with data-driven confidence.",
   },
   {
     id: 22,
-    text: "From predictive models to actionable insights—your data’s journey starts here."
+    text: "From predictive models to actionable insights—your data’s journey starts here.",
   },
   {
     id: 23,
-    text: "Intelligence is in the details—let's explore yours through data."
+    text: "Intelligence is in the details—let's explore yours through data.",
   },
   {
     id: 24,
-    text: "Data-driven success isn’t a trend; it’s a strategy for the future."
+    text: "Data-driven success isn’t a trend; it’s a strategy for the future.",
   },
   {
     id: 25,
-    text: "Your business has questions; your data has answers—let’s connect the dots."
+    text: "Your business has questions; your data has answers—let’s connect the dots.",
   },
   {
     id: 26,
-    text: "Exploratory data analysis that reveals trends and fuels transformation."
+    text: "Exploratory data analysis that reveals trends and fuels transformation.",
   },
   {
     id: 27,
-    text: "Building bridges between raw data and informed decisions."
+    text: "Building bridges between raw data and informed decisions.",
   },
   {
     id: 28,
-    text: "When innovation meets insights, success is inevitable."
+    text: "When innovation meets insights, success is inevitable.",
   },
   {
     id: 29,
-    text: "Strategic solutions powered by data science and creativity."
+    text: "Strategic solutions powered by data science and creativity.",
   },
   {
     id: 30,
-    text: "Unlocking the hidden gems in your data for maximum impact."
-  }
+    text: "Unlocking the hidden gems in your data for maximum impact.",
+  },
 ];
 
 function generateRandomNumber() {
@@ -223,6 +223,7 @@ export default function Skills() {
           {skills.map((skill) => {
             return (
               <motion.div
+                key={skill.id}
                 variants={item}
                 className="flex  cursor-pointer mx-auto  hover:bg-black hover:text-white transition-all 4s ease-linear flex-col gap-3     border-[0.5px] border-[black] p-3 md:w-[400px] w-[300px] rounded-md"
               >
@@ -241,9 +242,10 @@ export default function Skills() {
               How I Can Assist You
             </h1>
             <ol className="flex  flex-col  gap-2 ">
-              {steps.map((step) => {
+              {steps.map((step , index) => {
                 return (
                   <motion.li
+                    key={index}
                     initial={{ opacity: 0, scale: 0.9, x: step.x }}
                     whileInView={{ opacity: 1, scale: 1, x: 0 }}
                     transition={{
