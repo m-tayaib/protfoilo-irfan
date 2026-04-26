@@ -5,6 +5,76 @@ import { MdPhone } from "react-icons/md";
 import { FaDownload } from "react-icons/fa";
 import emailjs from "emailjs-com";
 
+const MAX_DAILY_SENDS = 6;
+const DEVICE_ID_KEY = "portfolio-contact-device-id";
+const DAILY_LIMIT_KEY = "portfolio-contact-daily-limit";
+
+function getTodayKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function getDeviceId() {
+  const existing = window.localStorage.getItem(DEVICE_ID_KEY);
+
+  if (existing) {
+    return existing;
+  }
+
+  const generated =
+    (window.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`);
+  window.localStorage.setItem(DEVICE_ID_KEY, generated);
+  return generated;
+}
+
+function getSendLimitState() {
+  try {
+    const today = getTodayKey();
+    const deviceId = getDeviceId();
+    const raw = window.localStorage.getItem(DAILY_LIMIT_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    const count = Number(parsed[deviceId]?.[today] ?? 0);
+    const remaining = Math.max(0, MAX_DAILY_SENDS - count);
+
+    return {
+      allowed: count < MAX_DAILY_SENDS,
+      count,
+      remaining,
+      today,
+      deviceId,
+      parsed,
+    };
+  } catch {
+    return {
+      allowed: true,
+      count: 0,
+      remaining: MAX_DAILY_SENDS,
+    };
+  }
+}
+
+function increaseDailySendCount() {
+  try {
+    const state = getSendLimitState();
+
+    if (!state.deviceId || !state.today || !state.parsed) {
+      return;
+    }
+
+    if (!state.parsed[state.deviceId]) {
+      state.parsed[state.deviceId] = {};
+    }
+
+    state.parsed[state.deviceId][state.today] = state.count + 1;
+    window.localStorage.setItem(DAILY_LIMIT_KEY, JSON.stringify(state.parsed));
+  } catch {
+    // Ignore storage errors to avoid blocking legitimate sends.
+  }
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -12,6 +82,9 @@ export default function Contact() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const limitState = getSendLimitState();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,109 +93,185 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const currentLimitState = getSendLimitState();
+    if (!currentLimitState.allowed) {
+      setErrorMessage("Daily limit reached. You can send up to 6 messages per day from this device.");
+      return;
+    }
+
+    setSending(true);
+    setErrorMessage("");
+
     emailjs
       .send(
-        "service_eul0k2j", // Replace with your EmailJS Service ID
-        "template_hxdd2v9", // Replace with your EmailJS Template ID
+        "service_14ujmrs", // Replace with your EmailJS Service ID
+        "template_t05jszc", // Replace with your EmailJS Template ID
         formData,
-        "oRX73hkBk42mnwAES" // Replace with your EmailJS Public Key
+        "H3nkDBEnchx86zltm" // Replace with your EmailJS Public Key
       )
       .then(
         (result) => {
           console.log("Email sent successfully:", result.text);
+          increaseDailySendCount();
           setSubmitted(true);
           setTimeout(() => setSubmitted(false), 3000);
           setFormData({ name: "", email: "", message: "" });
+          setSending(false);
         },
         (error) => {
           console.error("Error sending email:", error.text);
+
+          if (error?.text?.includes("Invalid grant")) {
+            setErrorMessage(
+              "Email service is disconnected (Gmail invalid grant). Please reconnect EmailJS Gmail integration, then try again."
+            );
+          } else {
+            setErrorMessage("Message could not be sent right now. Please try again shortly.");
+          }
+
+          setSending(false);
         }
       );
   };
 
-  return (
-    <div className="md:h-[91vh]  flex justify-center items-center p-6">
-      {/* Card Container */}
-      <motion.div
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="w-full max-w-5xl bg-gradient-to-br from-blue-20 via-white to-blue-100 rounded-lg shadow-xl p-8 flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0"
-      >
-        {/* Left Side: Contact Info */}
-        <div className="w-full md:w-1/2 space-y-6">
-          <motion.h2
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-4xl font-extrabold text-blue-800 text-center md:text-left"
-          >
-            Get in Touch
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9 }}
-            className="text-gray-600 text-center md:text-left"
-          >
-            Reach out to me for collaborations, projects, or general inquiries.
-          </motion.p>
+  const infoItems = [
+    {
+      label: "Location",
+      icon: <FaMapMarkerAlt className="text-sky-700 dark:text-sky-300 text-xl" />,
+      text: "Busan, South Korea",
+    },
+    {
+      label: "Email",
+      icon: <FaEnvelope className="text-sky-700 dark:text-sky-300 text-xl" />,
+      text: (
+        <a href="mailto:irfan.datalytics@gmail.com" className="hover:underline break-all">
+          irfan.datalytics@gmail.com
+        </a>
+      ),
+    },
+    {
+      label: "Phone",
+      icon: <MdPhone className="text-sky-700 dark:text-sky-300 text-xl" />,
+      text: "+82 010 6561 8911",
+    },
+  ];
 
-          {/* Contact Info */}
-          <div className="space-y-4">
-            {[
-              {
-                icon: <FaMapMarkerAlt className="text-blue-600 text-2xl" />,
-                text: "Lahore, Pakistan",
-              },
-              {
-                icon: <FaEnvelope className="text-blue-600 text-2xl" />,
-                text: (
-                  <a
-                    href="mailto:irfan.datalytics@gmail.com"
-                    className="hover:underline"
-                  >
-                    irfan.datalytics@gmail.com
-                  </a>
-                ),
-              },
-              {
-                icon: <MdPhone className="text-blue-600 text-2xl" />,
-                text: "+92 306 7599 833",
-              },
-            ].map((item, index) => (
+  const fadeUp = {
+    hidden: { opacity: 0, y: 16 },
+    show: { opacity: 1, y: 0 },
+  };
+
+  return (
+    <section className="relative md:min-h-[91vh] flex justify-center items-center p-4 sm:p-6 lg:p-8 transition-colors duration-300 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0" />
+      </div>
+
+      <motion.div
+        initial="hidden"
+        animate="show"
+        transition={{ staggerChildren: 0.09 }}
+        className="w-full max-w-6xl rounded-[1.75rem] border border-slate-200/70 dark:border-slate-700/80 bg-white/70 dark:bg-slate-900/72 backdrop-blur-xl shadow-[0_26px_34px_-22px_rgba(15,23,42,0.35)] dark:shadow-[0_26px_34px_-22px_rgba(2,6,23,0.9)] p-3 sm:p-4"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 sm:gap-4">
+          {/* Left Side: Contact Info */}
+          <motion.div
+            variants={fadeUp}
+            transition={{ duration: 0.45 }}
+            className="lg:col-span-2 rounded-2xl border border-slate-200/70 dark:border-slate-700 bg-gradient-to-br from-sky-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-6 sm:p-7"
+          >
+            <motion.span
+              variants={fadeUp}
+              transition={{ duration: 0.4 }}
+              className="inline-flex items-center rounded-full border border-sky-300/60 dark:border-sky-700/70 bg-sky-100/80 dark:bg-sky-900/40 px-3 py-1 text-[11px] tracking-[0.12em] font-semibold uppercase text-sky-700 dark:text-sky-300"
+            >
+              Contact Desk
+            </motion.span>
+
+            <div className="mt-4 sm:mt-5 space-y-4">
+              <motion.h2
+                variants={fadeUp}
+                transition={{ duration: 0.45 }}
+                className="text-3xl sm:text-4xl font-extrabold leading-tight text-slate-900 dark:text-slate-100"
+              >
+                Let's Build Something Meaningful
+              </motion.h2>
+              <motion.p
+                variants={fadeUp}
+                transition={{ duration: 0.45 }}
+                className="text-slate-600 dark:text-slate-300"
+              >
+                Open for data science collaborations, freelance analytics work, and product-focused AI projects.
+              </motion.p>
+
+              <motion.div variants={fadeUp} transition={{ duration: 0.45 }} className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="rounded-full border border-slate-300/80 dark:border-slate-600 bg-white/70 dark:bg-slate-900/70 px-3 py-1 text-[11px] uppercase tracking-[0.08em] text-slate-600 dark:text-slate-300">
+                  Avg reply: 24h
+                </span>
+                <span className="rounded-full border border-slate-300/80 dark:border-slate-600 bg-white/70 dark:bg-slate-900/70 px-3 py-1 text-[11px] uppercase tracking-[0.08em] text-slate-600 dark:text-slate-300">
+               South Korea (GMT+9)                    
+                </span>
+              </motion.div>
+            </div>
+
+            {/* Contact Info */}
+            <div className="mt-6 space-y-3">
+              {infoItems.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 + index * 0.2 }}
-                className="flex items-center space-x-4 hover:scale-105 transform transition duration-300"
+                  variants={fadeUp}
+                  transition={{ duration: 0.45 }}
+                  whileHover={{ y: -2, scale: 1.01 }}
+                  className="rounded-xl border border-slate-200/70 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 px-3 py-2.5 flex items-center gap-3 transition-colors duration-300"
               >
-                {item.icon}
-                <p className="text-gray-700">{item.text}</p>
+                  <div className="h-10 w-10 rounded-lg bg-sky-100 dark:bg-sky-900/40 flex items-center justify-center">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400">
+                      {item.label}
+                    </p>
+                    <p className="text-sm sm:text-base text-slate-800 dark:text-slate-100">{item.text}</p>
+                  </div>
               </motion.div>
             ))}
           </div>
+
           <motion.a
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1 }}
+              variants={fadeUp}
+              transition={{ duration: 0.45 }}
+              whileHover={{ y: -2 }}
             href="/public/resume.pdf"
             download="My_Resume.pdf" // Specify the name for the downloaded file
-            className="bg-blue-600 font-medium w-[200px] text-white shadow-lg cursor-pointer px-3 py-2 rounded-lg flex items-center space-x-2 hover:bg-black hover:text-white transition duration-200 ease-linear"
+              className="mt-6 inline-flex bg-slate-900 dark:bg-sky-400 font-semibold text-white dark:text-slate-900 shadow-lg cursor-pointer px-4 py-2.5 rounded-xl items-center space-x-2 hover:bg-slate-700 dark:hover:bg-sky-300 transition-colors duration-300"
           >
             <FaDownload />
             <span>Download Resume</span>
           </motion.a>
-        </div>
+          </motion.div>
 
-        {/* Right Side: Contact Form */}
-        <div className="w-full md:w-1/2">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Right Side: Contact Form */}
+          <motion.div
+            variants={fadeUp}
+            transition={{ duration: 0.45 }}
+            className="lg:col-span-3 rounded-2xl border border-slate-200/70 dark:border-slate-700 bg-white/85 dark:bg-slate-900/70 p-6 sm:p-7"
+          >
+            <div className="mb-5">
+              <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">
+                Send a Direct Message
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 mt-1.5 text-sm sm:text-base">
+                I usually respond within 24 hours. Share your idea and timeline.
+              </p>
+            </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-semibold text-gray-700 mb-1"
+                    className="block text-xs uppercase tracking-[0.08em] font-semibold text-slate-600 dark:text-slate-300 mb-1.5"
               >
                 Your Name
               </label>
@@ -133,14 +282,15 @@ export default function Contact() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3.5 py-3 border border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 transition-colors duration-300"
+                    placeholder="John Doe"
                 required
               />
             </div>
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-semibold text-gray-700 mb-1"
+                    className="block text-xs uppercase tracking-[0.08em] font-semibold text-slate-600 dark:text-slate-300 mb-1.5"
               >
                 Your Email
               </label>
@@ -151,14 +301,17 @@ export default function Contact() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3.5 py-3 border border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 transition-colors duration-300"
+                    placeholder="name@example.com"
                 required
               />
+                </div>
             </div>
+
             <div>
               <label
                 htmlFor="message"
-                className="block text-sm font-semibold text-gray-700 mb-1"
+                  className="block text-xs uppercase tracking-[0.08em] font-semibold text-slate-600 dark:text-slate-300 mb-1.5"
               >
                 Your Message
               </label>
@@ -168,19 +321,30 @@ export default function Contact() {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                rows="4"
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows="5"
+                  className="w-full px-3.5 py-3 border border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 transition-colors duration-300 resize-none"
+                  placeholder="Tell me about your project goals, timeline, and expected outcomes..."
                 required
               ></motion.textarea>
             </div>
+
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.02, y: -1 }}
               type="submit"
-              className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all flex items-center justify-center"
+              disabled={sending || !limitState.allowed}
+                className="w-full py-3.5 bg-slate-900 dark:bg-sky-400 text-white dark:text-slate-900 font-semibold rounded-xl shadow-md hover:bg-slate-700 dark:hover:bg-sky-300 transition-colors duration-300 flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Send Message
+              {sending
+                ? "Sending..."
+                : !limitState.allowed
+                ? "Daily Limit Reached"
+                : "Send Message"}
               <FaPaperPlane className="ml-2" />
             </motion.button>
+
+            <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
+              Remaining today: {limitState.remaining} / {MAX_DAILY_SENDS}
+            </p>
           </form>
 
           {/* Success Message */}
@@ -189,13 +353,25 @@ export default function Contact() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="mt-4 text-center text-green-600 font-semibold"
+                className="mt-4 rounded-xl border border-emerald-300/70 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 p-3 text-center text-emerald-700 dark:text-emerald-300 font-semibold"
             >
               Thank you! Your message has been sent.
             </motion.div>
           )}
+
+          {errorMessage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+                className="mt-4 rounded-xl border border-red-300/70 dark:border-red-700 bg-red-50 dark:bg-red-950/40 p-3 text-center text-red-700 dark:text-red-300 font-semibold"
+            >
+              {errorMessage}
+            </motion.div>
+          )}
+          </motion.div>
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 }

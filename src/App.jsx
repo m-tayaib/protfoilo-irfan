@@ -11,16 +11,16 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const time = setInterval(() => {
+    const time = setTimeout(() => {
       setLoading(false);
     }, 500);
-    return () => clearInterval(time);
-  }, [loading]);
+    return () => clearTimeout(time);
+  }, []);
 
   return (
     <>
       {loading ? (
-        <div className="h-screen relative flex-col gap-5  backdrop-blur-xl bg-white/30 flex justify-center items-center">
+        <div className="h-screen relative flex-col gap-5 backdrop-blur-xl bg-white/60 dark:bg-slate-900/70 flex justify-center items-center transition-colors duration-300">
           {/* <motion.img
           initial={{
             scale:1
@@ -37,26 +37,22 @@ function App() {
             }}
             whileInView={{ scale: 8 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="opacity-70  text-[#5f5957]  flex justify-center items-center"
+            className="opacity-70 text-[#5f5957] dark:text-slate-200 flex justify-center items-center"
           >
             <RiseLoader color="#f36a00" />
             {/* <FaCode fontSize={90} /> */}
           </motion.div>
 
-          <h1 className="absolute bottom-5 opacity-50 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black capitalize ">
+          <h1 className="absolute bottom-5 opacity-60 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black dark:text-slate-100 capitalize transition-colors duration-300">
             Welcome in My Protfoilo
           </h1>
         </div>
       ) : (
-        <div className=" w-full min-h-screen bg-[#f8fafc] relative">
+        <div className="w-full min-h-screen bg-slate-50 dark:bg-slate-950 relative text-slate-900 dark:text-slate-100 transition-colors duration-300">
   {/* Top Fade Grid Background */}
   <div
-    className="absolute inset-0 z-0"
+    className="absolute inset-0 z-0 [background-image:linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] dark:[background-image:linear-gradient(to_right,rgba(100,116,139,0.32)_1px,transparent_1px),linear-gradient(to_bottom,rgba(100,116,139,0.32)_1px,transparent_1px)]"
     style={{
-      backgroundImage: `
-        linear-gradient(to right, #e2e8f0 1px, transparent 1px),
-        linear-gradient(to bottom, #e2e8f0 1px, transparent 1px)
-      `,
       backgroundSize: "20px 30px",
       WebkitMaskImage:
         "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
@@ -64,7 +60,7 @@ function App() {
         "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
     }}
   />
-  <div className="z-10 h-full  relative pt-6">
+  <div className="z-10 h-full relative pt-6">
  <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />

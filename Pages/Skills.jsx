@@ -4,46 +4,60 @@ import deep from "../public/deep.png";
 import powerbi from "../public/powerbi.png";
 import exploratory from "../public/exploratory.png";
 import visualization from "../public/visualization.png";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import fire from "../public/fire.gif";
+import { OrbitingCirclesDemo } from "../src/components/ui/OrbitingCirclesDemo";
 
 const skills = [
   {
     id: 1,
     title: "Python Programming",
-    para: "Transforming data into actionable insights through efficient Python programming.",
+    para: "Transforming raw data into actionable insights through efficient Python programming and object-oriented techniques.",
     icon: <img src={python} alt="python" />,
+    orbitOuter: ["python", "jupyter", "pandas", "numpy", "sklearn"],
+    orbitInner: ["fastapi", "openai", "sheets", "sql"],
   },
   {
     id: 2,
     title: "Machine Learning Solutions",
-    para: "Building predictive models to enhance decision-making processes.",
+    para: "Building and evaluating predictive models, such as KNN for Heart Disease Prediction and Linear Regression for Insurance Charges Prediction, using Scikit-learn with metrics like F1-score and R2.",
     icon: <img src={machine} alt="machine" />,
+    orbitOuter: ["sklearn", "python", "spark", "pandas", "plotly"],
+    orbitInner: ["jupyter", "openai", "numpy", "sql"],
   },
   {
     id: 3,
-    title: "Deep Learning Applications",
-    para: "Designing intelligent systems for advanced data analysis and automation.",
+    title: "Deep Learning & Medical AI",
+    para: "Designing medical image classification systems and improving model interpretability using TensorFlow and Grad-CAM.",
     icon: <img src={deep} alt="deep" />,
+    orbitOuter: ["tensorflow", "python", "openai", "numpy", "jupyter"],
+    orbitInner: ["sklearn", "pandas", "plotly", "fastapi"],
   },
   {
     id: 4,
-    title: "Power BI Dashboards",
-    para: "Creating dynamic visualizations to drive data-driven business strategies.",
+    title: "High-Performance APIs",
+    para: "Architecting and deploying robust backend services and integration layers with FastAPI for high-performance ML workflows.",
     icon: <img src={powerbi} alt="powerbi" />,
+    orbitOuter: ["fastapi", "python", "sql", "spark", "openai"],
+    orbitInner: ["jupyter", "sheets", "powerbi", "numpy"],
   },
   {
     id: 5,
-    title: "Exploratory Data Analysis",
-    para: "Uncovering trends and patterns in data to provide meaningful insights.",
-    icon: <img src={exploratory} alt="exploratory" />,
+    title: "Interactive Web Applications",
+    para: "Deploying real-time prediction interfaces and data-driven dashboards using Streamlit and Dash.",
+    icon: <img src={powerbi} alt="powerbi" />,
+    orbitOuter: ["streamlit", "dash", "plotly", "powerbi", "python"],
+    orbitInner: ["pandas", "numpy", "sql", "openai"],
   },
   {
     id: 6,
-    title: "Data Visualization",
-    para: "Presenting complex data through intuitive and impactful visual storytelling.",
-    icon: <img src={visualization} alt="visualization" />,
-  },
+    title: "Exploratory Data Analysis",
+    para: "Uncovering critical trends and cleaning complex healthcare datasets using Pandas, NumPy, and Microsoft Excel.",
+    icon: <img src={exploratory} alt="exploratory" />,
+    orbitOuter: ["pandas", "numpy", "jupyter", "powerbi", "sheets"],
+    orbitInner: ["python", "plotly", "sql", "openai"],
+  }
 ];
 const steps = [
   { title: "Turning raw data into actionable strategies.", delay: 0.3, x: 100 },
@@ -195,6 +209,10 @@ function generateRandomNumber() {
 }
 
 export default function Skills() {
+  const [selectedSkillId, setSelectedSkillId] = useState(skills[0].id);
+  const selectedSkill =
+    skills.find((skill) => skill.id === selectedSkillId) ?? skills[0];
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -211,21 +229,36 @@ export default function Skills() {
   };
 
   return (
-    <section className="font-roboto overflow-x-hidden ">
-      <div className="container">
+    <section className="font-roboto overflow-x-hidden transition-colors duration-300">
+      <div className="container mx-auto ">
         {/* skills portion */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid md:grid-cols-3  grid-cols-1 gap-5 mt-9"
+          className="grid  lg:grid-cols-2 xl:grid-cols-3 grid-cols-1 gap-5 mt-9"
         >
           {skills.map((skill) => {
+            const isSelected = skill.id === selectedSkillId;
+
             return (
               <motion.div
                 key={skill.id}
                 variants={item}
-                className="flex  cursor-pointer mx-auto  hover:bg-black hover:text-white transition-all 4s ease-linear flex-col gap-3     border-[0.5px] border-[black] p-3 md:w-[400px] w-[300px] rounded-md"
+                onClick={() => setSelectedSkillId(skill.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setSelectedSkillId(skill.id);
+                  }
+                }}
+                className={`flex cursor-pointer mx-auto flex-col gap-3 border p-3 md:w-[400px] w-[300px] rounded-md transition-colors duration-300 ease-out ${
+                  isSelected
+                    ? "bg-slate-900 text-white border-slate-900 shadow-[0_14px_30px_rgba(15,23,42,0.25)] dark:bg-slate-100 dark:text-slate-900 dark:border-slate-200"
+                    : "border-slate-900/70 dark:border-slate-600 hover:bg-slate-900 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900"
+                }`}
               >
                 <h1 className="flex  items-center gap-2 text-lg pt-2 font-bold">
                   {skill.icon} {skill.title}
@@ -236,7 +269,7 @@ export default function Skills() {
           })}
         </motion.div>
 
-        <div className="container px-3 pb-3 grid grid-cols-1 md:grid-cols-2  ">
+        {/* <div className="container px-3 pb-3 grid grid-cols-1 md:grid-cols-2  ">
           <div>
             <h1 className="text-2xl font-bold container  mt-9">
               How I Can Assist You
@@ -289,7 +322,19 @@ export default function Skills() {
               ''{quotes[generateRandomNumber()].text}''
             </motion.h1>
           </div>
-        </div>
+        </div> */}
+
+
+        {/* orbital animation show  */}
+
+      <OrbitingCirclesDemo
+        title={selectedSkill.title}
+        outerIcons={selectedSkill.orbitOuter}
+        innerIcons={selectedSkill.orbitInner}
+      />
+
+
+
       </div>
     </section>
   );

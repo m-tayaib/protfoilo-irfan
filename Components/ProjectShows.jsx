@@ -98,7 +98,7 @@ export default function ProjectShows({ active }) {
             duration: 0.8,
             ease: "easeOut",
           }}
-          className="text-gray-500 tracking-tighter leading-6 mb-4"
+          className="text-gray-600 dark:text-slate-300 tracking-tighter leading-6 mb-4 transition-colors duration-300"
         >
           {projectData[active].para}
         </motion.p>
@@ -136,7 +136,7 @@ export default function ProjectShows({ active }) {
                   delay: 0.2 * index,
                   ease: "easeInOut",
                 }}
-                className="bg-gray-300 text-black py-2 px-3 shadow-md rounded-md inline-block"
+                className="bg-gray-300 dark:bg-slate-800 text-black dark:text-slate-100 py-2 px-3 shadow-md rounded-md inline-block transition-colors duration-300"
               >
                 {tag}
               </motion.li>
@@ -150,7 +150,6 @@ export default function ProjectShows({ active }) {
             <motion.button
               whileHover={{
                 scale: 1.05,
-                backgroundColor: "#38bdf8", // Tailwind Sky-400
                 transition: { duration: 0.2 },
               }}
               initial={{
@@ -168,7 +167,7 @@ export default function ProjectShows({ active }) {
                 stiffness: 100,
                 damping: 160,
               }}
-              className="py-2 px-3 shadow-md hover:bg-green-600 hover:text-white font-bold transition-all ease-linear flex justify-center items-center gap-3 bg-gray-200 rounded-lg"
+              className="py-2 px-3 shadow-md hover:bg-green-600 hover:text-white dark:hover:bg-sky-400 dark:hover:text-slate-900 font-bold transition-colors duration-300 flex justify-center items-center gap-3 bg-gray-200 dark:bg-slate-800 dark:text-slate-100 rounded-lg"
             >
               code
               <FaCode />
@@ -197,7 +196,7 @@ export default function ProjectShows({ active }) {
             delay: 0.2,
             ease: "easeInOut",
           }}
-          className="h-[80%] w-[82%] rounded-md absolute rotate-3 -z-10 bg-gray-600 shadow-md"
+          className="h-[80%] w-[82%] rounded-md absolute rotate-3 -z-10 bg-gray-600 dark:bg-slate-700 shadow-md transition-colors duration-300"
         ></motion.div>
         <motion.img
           initial={{
@@ -217,7 +216,7 @@ export default function ProjectShows({ active }) {
             delay: 0.2,
             ease: "easeInOut",
           }}
-          className="shadow-[0_0_4px_black] h-[80%] w-[80%] rounded-md"
+          className="shadow-[0_0_4px_black] dark:shadow-[0_0_8px_#94a3b8] h-[80%] w-[80%] rounded-md transition-shadow duration-300"
           src={projectData[active].img}
           alt=""
         />

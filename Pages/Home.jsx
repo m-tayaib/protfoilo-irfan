@@ -27,7 +27,7 @@ const Taglines = [
 
 export default function Home() {
   return (
-    <section className="container  font-roboto grid md:grid-cols-2 justify-center items-center gap-5 md:h-[91vh] overflow-x-hidden">
+    <section className="container mx-auto font-roboto grid md:grid-cols-2 justify-center items-center gap-5 md:h-[91vh] overflow-x-hidden transition-colors duration-300">
       {/* Person Info */}
       <div className="p-5 md:p-0">
         <motion.h1
@@ -72,7 +72,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, stiffness: 120, damping: 60 }}
-            className="bg-black transition-all 2s ease-in  hover:translate-x-5  hover:text-black hover:bg-white shadow-[0_0_5px_black] ml-1 border-[0.7px] border-[#000000] text-white p-3 rounded-lg mt-5"
+            className="bg-slate-900 dark:bg-slate-100 transition-all duration-300 hover:translate-x-5 hover:text-black hover:bg-white dark:hover:bg-slate-300 shadow-[0_0_5px_black] dark:shadow-[0_0_5px_#e2e8f0] ml-1 border border-slate-900 dark:border-slate-300 text-white dark:text-slate-900 p-3 rounded-lg mt-5"
           >
             Let's Connect
           </motion.button>
@@ -86,7 +86,7 @@ export default function Home() {
         transition={{ duration: 0.4, stiffness: 120, damping: 150 }}
         className="container flex justify-center items-center"
       >
-        <img className="img shadow-[0_0_20px_black]" src={pic} alt="image" />
+        <img className="img shadow-[0_0_20px_black] dark:shadow-[0_0_20px_#94a3b8]" src={pic} alt="image" />
       </motion.div>
     </section>
   );

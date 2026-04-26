@@ -11,7 +11,7 @@ export default function Projects() {
   };
 
   return (
-    <section className="font-roboto  flex justify-center flex-col py-10 items-center md:h-[91vh]">
+    <section className="font-roboto flex justify-center flex-col py-10 items-center md:h-[91vh] transition-colors duration-300">
       <ProjectShows active={active} />
 
       {/* projects action buttons */}
@@ -24,7 +24,7 @@ export default function Projects() {
             scale: 0.9,
           }}
           onClick={() => handleChangeProject(0)}
-          className="py-2 px-3 shadow-md group hover:bg-slate-800 hover:text-white transition-all 2s ease-linear flex justify-center items-center gap-3 bg-gray-200 rounded-lg"
+          className="py-2 px-3 shadow-md group hover:bg-slate-800 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900 transition-colors duration-300 flex justify-center items-center gap-3 bg-gray-200 dark:bg-slate-800 dark:text-slate-100 rounded-lg"
         >
           CardioScop Project
           <span className="group-hover:-translate-y-2 group-hover:scale-125 group-hover:text-gray-200 transition-all 2s ease-linear">
@@ -39,7 +39,7 @@ export default function Projects() {
             scale: 0.9,
           }}
           onClick={() => handleChangeProject(1)}
-          className="py-2 px-3 shadow-md group hover:bg-slate-800 hover:text-white transition-all 2s ease-linear flex justify-center items-center gap-3 bg-gray-200 rounded-lg"
+          className="py-2 px-3 shadow-md group hover:bg-slate-800 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900 transition-colors duration-300 flex justify-center items-center gap-3 bg-gray-200 dark:bg-slate-800 dark:text-slate-100 rounded-lg"
         >
           AmazonMetrics Project
           <span className="group-hover:-translate-y-2 group-hover:scale-125 group-hover:text-gray-200 transition-all 2s ease-linear">
@@ -54,7 +54,7 @@ export default function Projects() {
             scale: 0.9,
           }}
           onClick={() => handleChangeProject(2)}
-          className="py-2 px-3 group shadow-md hover:bg-slate-800 hover:text-white transition-all 2s ease-linear flex justify-center items-center gap-3 bg-gray-200 rounded-lg"
+          className="py-2 px-3 group shadow-md hover:bg-slate-800 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900 transition-colors duration-300 flex justify-center items-center gap-3 bg-gray-200 dark:bg-slate-800 dark:text-slate-100 rounded-lg"
         >
           AppAnalyzer Project
           <span className="group-hover:-translate-y-2 group-hover:scale-125 group-hover:text-gray-200 transition-all 2s ease-linear">
@@ -69,7 +69,7 @@ export default function Projects() {
             scale: 0.9,
           }}
           onClick={() => handleChangeProject(3)}
-          className="py-2 px-3 group shadow-md hover:bg-slate-800 hover:text-white transition-all 2s ease-linear flex justify-center items-center gap-3 bg-gray-200 rounded-lg"
+          className="py-2 px-3 group shadow-md hover:bg-slate-800 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900 transition-colors duration-300 flex justify-center items-center gap-3 bg-gray-200 dark:bg-slate-800 dark:text-slate-100 rounded-lg"
         >
           HotelMetrics Project
           <span className="group-hover:-translate-y-2 group-hover:scale-125 group-hover:text-gray-200 transition-all 2s ease-linear">
