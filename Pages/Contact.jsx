@@ -242,7 +242,7 @@ export default function Contact() {
               variants={fadeUp}
               transition={{ duration: 0.45 }}
               whileHover={{ y: -2 }}
-            href="/public/resume.pdf"
+            href="/resume.pdf"
             download="My_Resume.pdf" // Specify the name for the downloaded file
               className="mt-6 inline-flex bg-slate-900 dark:bg-sky-400 font-semibold text-white dark:text-slate-900 shadow-lg cursor-pointer px-4 py-2.5 rounded-xl items-center space-x-2 hover:bg-slate-700 dark:hover:bg-sky-300 transition-colors duration-300"
           >
