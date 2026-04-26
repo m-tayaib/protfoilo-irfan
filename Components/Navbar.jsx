@@ -18,10 +18,10 @@ export default function Navbar() {
       initial={{opacity:0 ,scale:0.7}}
       animate={{opacity:1 ,scale:1}}
       transition={{duration:0.4 , stiffness:120 , damping:60}}
-      className="font-roboto flex mx-auto px-2 rounded-lg py-2 mt-5 bg-white/30 backdrop-blur-md border border-white/20 justify-center items-center md:gap-7 shadow-md h-[50px] w-full sm:max-w-[60%] md:max-w-[50%] lg:max-w-[40%]">
+      className="font-roboto flex mx-auto px-2 rounded-lg py-2  bg-white/30 backdrop-blur-md border border-white/20 justify-center items-center md:gap-7 shadow-md h-[50px]  w-fit">
       {/* Nav links */}
       <div>
-        <ul className="flex justify-center items-center gap-5">
+        <ul className="flex justify-center items-center md:gap-5">
           {navLinks.map((link) => {
             return (
               <motion.li
@@ -44,7 +44,7 @@ export default function Navbar() {
       </div>
 
       {/* Professional links icons */}
-      <div className="flex justify-center items-center gap-3">
+      <div className="flex justify-center items-center gap-3  ">
         <motion.a
           initial={{opacity:0 , y:-10}}
           animate={{opacity:1 , y:0}}

@@ -48,19 +48,39 @@ function App() {
           </h1>
         </div>
       ) : (
-        <>
-          {" "}
-          <Navbar />
+        <div className=" w-full min-h-screen bg-[#f8fafc] relative">
+  {/* Top Fade Grid Background */}
+  <div
+    className="absolute inset-0 z-0"
+    style={{
+      backgroundImage: `
+        linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+        linear-gradient(to bottom, #e2e8f0 1px, transparent 1px)
+      `,
+      backgroundSize: "20px 30px",
+      WebkitMaskImage:
+        "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
+      maskImage:
+        "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
+    }}
+  />
+  <div className="z-10 h-full  relative pt-6">
+ <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/skills" element={<Skills />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
-        </>
+  </div>
+     
+</div>
       )}
     </>
   );
 }
 
 export default App;
+
+
+
