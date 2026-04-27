@@ -11,7 +11,7 @@ export default function Projects() {
   };
 
   return (
-    <section className="font-roboto flex justify-center flex-col py-10 items-center md:h-[91vh] transition-colors duration-300">
+    <section className="font-roboto  h-full  flex justify-center flex-col py-10 items-center md:h-[91vh] transition-colors duration-300">
       <ProjectShows active={active} />
 
       {/* projects action buttons */}

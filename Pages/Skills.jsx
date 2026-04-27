@@ -229,7 +229,7 @@ export default function Skills() {
   };
 
   return (
-    <section className="font-roboto overflow-x-hidden transition-colors duration-300">
+    <section className="font-roboto  h-full  overflow-x-hidden transition-colors duration-300">
       <div className="container mx-auto ">
         {/* skills portion */}
         <motion.div

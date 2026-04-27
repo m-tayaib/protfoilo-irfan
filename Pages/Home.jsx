@@ -25,9 +25,9 @@ const Taglines = [
   },
 ];
 
-export default function Home() {
+export default function  Home() {
   return (
-    <section className="container mx-auto font-roboto grid md:grid-cols-2 justify-center items-center gap-5 md:h-[91vh] overflow-x-hidden transition-colors duration-300">
+    <section className="container h-full mx-auto font-roboto grid md:grid-cols-2 justify-center items-center gap-5 md:h-[91vh] overflow-x-hidden transition-colors duration-300">
       {/* Person Info */}
       <div className="p-5 md:p-0">
         <motion.h1
