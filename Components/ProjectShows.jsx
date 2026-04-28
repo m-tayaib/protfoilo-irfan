@@ -3,6 +3,8 @@ import heart_diease from "../public/projects_images/heart_dieases.png";
 import amazon_project from "../public/projects_images/amazon_project.png";
 import appStore from "../public/projects_images/appStore.png";
 import hotel_project from "../public/projects_images/hotel_project.png";
+import heart_project from "../public/projects_images/heart.png";
+import insurance_project from "../public/projects_images/self.png";
 import { motion } from "framer-motion";
 import { FaCode } from "react-icons/fa6";
 
@@ -65,6 +67,36 @@ const projectData = [
       "Data Cleaning · pandas",
       "Problem Solving",
       "Data Science",
+    ],
+  },
+  {
+    id: 4,
+    title: "CardioVision AI",
+    para: "AI-powered heart disease risk prediction system built with Streamlit and a K-Nearest Neighbors model. The app predicts risk from 11 clinical features, provides probability scores for low/high risk, and offers a polished medical-themed, responsive interface for quick inference.",
+    img: heart_project,
+    github: "https://github.com/irfan5006/CardioRisk-AI",
+    tags: [
+      "Python 3.8+",
+      "Streamlit",
+      "Scikit-Learn (KNN)",
+      "Pandas & NumPy",
+      "Joblib",
+      "Medical AI App",
+    ],
+  },
+  {
+    id: 5,
+    title: "Insurance Machine Learning Project",
+    para: "Regression project to predict medical insurance charges using age, BMI, smoking habits, region, and related features. Includes EDA, preprocessing, feature engineering, statistical tests, and Linear Regression evaluation with R2 and adjusted R2.",
+    img: insurance_project,
+    github: "https://github.com/irfan5006/Insurance-Charges-Prediction",
+    tags: [
+      "Linear Regression",
+      "Pandas",
+      "Seaborn",
+      "Scikit-Learn",
+      "Feature Engineering",
+      "Statistical Analysis",
     ],
   },
 ];

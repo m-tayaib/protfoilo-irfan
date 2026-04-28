@@ -76,6 +76,36 @@ export default function Projects() {
             <MdOutlineKeyboardDoubleArrowUp />
           </span>
         </motion.button>
+        <motion.button
+          whileHover={{
+            scale: 1.1,
+          }}
+          whileTap={{
+            scale: 0.9,
+          }}
+          onClick={() => handleChangeProject(4)}
+          className="py-2 px-3 group shadow-md hover:bg-slate-800 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900 transition-colors duration-300 flex justify-center items-center gap-3 bg-gray-200 dark:bg-slate-800 dark:text-slate-100 rounded-lg"
+        >
+          CardioVision AI Project
+          <span className="group-hover:-translate-y-2 group-hover:scale-125 group-hover:text-gray-200 transition-all 2s ease-linear">
+            <MdOutlineKeyboardDoubleArrowUp />
+          </span>
+        </motion.button>
+        <motion.button
+          whileHover={{
+            scale: 1.1,
+          }}
+          whileTap={{
+            scale: 0.9,
+          }}
+          onClick={() => handleChangeProject(5)}
+          className="py-2 px-3 group shadow-md hover:bg-slate-800 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900 transition-colors duration-300 flex justify-center items-center gap-3 bg-gray-200 dark:bg-slate-800 dark:text-slate-100 rounded-lg"
+        >
+          Insurance ML Project
+          <span className="group-hover:-translate-y-2 group-hover:scale-125 group-hover:text-gray-200 transition-all 2s ease-linear">
+            <MdOutlineKeyboardDoubleArrowUp />
+          </span>
+        </motion.button>
       </div>
     </section>
   );
